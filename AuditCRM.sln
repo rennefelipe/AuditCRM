@@ -1,0 +1,55 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.0.31903.59
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{5DBE0CB4-4121-4807-9C04-77A839AE3EFB}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AuditCRM.API", "src\AuditCRM.API\AuditCRM.API.csproj", "{5ABFFCDA-B6CC-48DA-84DB-F9E6AC23753D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AuditCRM.Domain", "src\AuditCRM.Domain\AuditCRM.Domain.csproj", "{69F1673C-6CCB-4464-A2F2-27FD0AD44E38}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AuditCRM.Application", "src\AuditCRM.Application\AuditCRM.Application.csproj", "{88C374AB-9058-47C5-8985-0688A1085046}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AuditCRM.Infrastructure", "src\AuditCRM.Infrastructure\AuditCRM.Infrastructure.csproj", "{F282662E-3F3D-4179-8F40-FD2E5D1C5BF6}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AuditCRM.Shared", "src\AuditCRM.Shared\AuditCRM.Shared.csproj", "{381A9ED6-A4B3-43D6-AD93-C2B6BCC5CD0F}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{5ABFFCDA-B6CC-48DA-84DB-F9E6AC23753D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5ABFFCDA-B6CC-48DA-84DB-F9E6AC23753D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5ABFFCDA-B6CC-48DA-84DB-F9E6AC23753D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5ABFFCDA-B6CC-48DA-84DB-F9E6AC23753D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{69F1673C-6CCB-4464-A2F2-27FD0AD44E38}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{69F1673C-6CCB-4464-A2F2-27FD0AD44E38}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{69F1673C-6CCB-4464-A2F2-27FD0AD44E38}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{69F1673C-6CCB-4464-A2F2-27FD0AD44E38}.Release|Any CPU.Build.0 = Release|Any CPU
+		{88C374AB-9058-47C5-8985-0688A1085046}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{88C374AB-9058-47C5-8985-0688A1085046}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{88C374AB-9058-47C5-8985-0688A1085046}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{88C374AB-9058-47C5-8985-0688A1085046}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F282662E-3F3D-4179-8F40-FD2E5D1C5BF6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F282662E-3F3D-4179-8F40-FD2E5D1C5BF6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F282662E-3F3D-4179-8F40-FD2E5D1C5BF6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F282662E-3F3D-4179-8F40-FD2E5D1C5BF6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{381A9ED6-A4B3-43D6-AD93-C2B6BCC5CD0F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{381A9ED6-A4B3-43D6-AD93-C2B6BCC5CD0F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{381A9ED6-A4B3-43D6-AD93-C2B6BCC5CD0F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{381A9ED6-A4B3-43D6-AD93-C2B6BCC5CD0F}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{5ABFFCDA-B6CC-48DA-84DB-F9E6AC23753D} = {5DBE0CB4-4121-4807-9C04-77A839AE3EFB}
+		{69F1673C-6CCB-4464-A2F2-27FD0AD44E38} = {5DBE0CB4-4121-4807-9C04-77A839AE3EFB}
+		{88C374AB-9058-47C5-8985-0688A1085046} = {5DBE0CB4-4121-4807-9C04-77A839AE3EFB}
+		{F282662E-3F3D-4179-8F40-FD2E5D1C5BF6} = {5DBE0CB4-4121-4807-9C04-77A839AE3EFB}
+		{381A9ED6-A4B3-43D6-AD93-C2B6BCC5CD0F} = {5DBE0CB4-4121-4807-9C04-77A839AE3EFB}
+	EndGlobalSection
+EndGlobal
