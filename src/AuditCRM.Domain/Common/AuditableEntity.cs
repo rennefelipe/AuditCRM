@@ -17,4 +17,25 @@ public abstract class AuditableEntity : BaseEntity
     public Guid? DeletedByUserId { get; protected set; }
 
     public byte[] RowVersion { get; protected set; } = [];
+
+    public void MarkCreatedBy(Guid? userId)
+    {
+        CreatedByUserId = userId;
+    }
+
+    public void MarkUpdatedBy(Guid? userId)
+    {
+        UpdatedAt = DateTime.UtcNow;
+        UpdatedByUserId = userId;
+    }
+
+    public void Delete(Guid? userId)
+    {
+        if (IsDeleted)
+            return;
+
+        IsDeleted = true;
+        DeletedAt = DateTime.UtcNow;
+        DeletedByUserId = userId;
+    }
 }

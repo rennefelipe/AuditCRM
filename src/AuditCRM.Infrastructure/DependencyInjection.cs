@@ -2,6 +2,7 @@ using System.Text;
 using AuditCRM.Application.Interfaces;
 using AuditCRM.Infrastructure.Authentication;
 using AuditCRM.Infrastructure.Persistence.Context;
+using AuditCRM.Infrastructure.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -10,8 +11,12 @@ using Microsoft.IdentityModel.Tokens;
 
 namespace AuditCRM.Infrastructure;
 
+
+
 public static class DependencyInjection
 {
+
+    
     public static IServiceCollection AddInfrastructure(
         this IServiceCollection services,
         IConfiguration configuration)
@@ -23,6 +28,7 @@ public static class DependencyInjection
 
         services.AddDbContext<AuditDbContext>(options =>
             options.UseSqlServer(connectionString));
+        
 
         services.Configure<JwtSettings>(
             configuration.GetSection(JwtSettings.SectionName));
@@ -51,7 +57,6 @@ public static class DependencyInjection
             .AddJwtBearer(options =>
             {
                 options.RequireHttpsMetadata = false;
-
                 options.SaveToken = true;
 
                 options.TokenValidationParameters =
@@ -67,7 +72,8 @@ public static class DependencyInjection
 
                         IssuerSigningKey =
                             new SymmetricSecurityKey(
-                                Encoding.UTF8.GetBytes(jwtSettings.Key)),
+                                Encoding.UTF8.GetBytes(
+                                    jwtSettings.Key)),
 
                         ClockSkew = TimeSpan.Zero
                     };
@@ -77,6 +83,22 @@ public static class DependencyInjection
 
         services.AddScoped<IPasswordHasher, PasswordHasher>();
         services.AddScoped<IAuthService, AuthService>();
+        services.AddScoped<IUserService, UserService>();
+        services.AddScoped<IShoppingGroupService, ShoppingGroupService>();
+        services.AddScoped<IShoppingService, ShoppingService>();
+        services.AddScoped<IStoreService, StoreService>();
+        services.AddScoped<IStoreContactService, StoreContactService>();
+        services.AddScoped<IErpService, ErpService>();
+        services.AddScoped<IInstallationTypeService, InstallationTypeService>();
+        services.AddScoped<IStoreProcessService, StoreProcessService>();
+        services.AddScoped<IProcessInteractionService,ProcessInteractionService>();
+        services.AddScoped<IProcessAppointmentService,ProcessAppointmentService>();
+        services.AddScoped<IProcessInstallationService,ProcessInstallationService>();
+        services.AddScoped<IProcessNoteService, ProcessNoteService>();
+        services.AddScoped<IProcessDocumentService,ProcessDocumentService>();
+        services.AddScoped<IProcessTimelineService,ProcessTimelineService>();
+        services.AddScoped<IWorkQueueService,WorkQueueService>();
+        services.AddScoped<IDashboardService,DashboardService>();
 
         return services;
     }

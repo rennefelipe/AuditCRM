@@ -26,6 +26,16 @@ public sealed class AuditDbContext : DbContext
 
     public DbSet<StoreContact> StoreContacts => Set<StoreContact>();
 
+    public DbSet<StoreProcess> StoreProcesses => Set<StoreProcess>();
+
+    public DbSet<ProcessInteraction> ProcessInteractions
+    => Set<ProcessInteraction>();
+
+    public DbSet<ProcessAppointment> ProcessAppointments
+    => Set<ProcessAppointment>();
+
+    public DbSet<ProcessInstallation> ProcessInstallations => Set<ProcessInstallation>();
+
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.ApplyConfigurationsFromAssembly(
@@ -33,4 +43,7 @@ public sealed class AuditDbContext : DbContext
 
         base.OnModelCreating(modelBuilder);
     }
+    public DbSet<ProcessNote> ProcessNotes => Set<ProcessNote>();
+
+    public DbSet<ProcessDocument> ProcessDocuments => Set<ProcessDocument>();
 }

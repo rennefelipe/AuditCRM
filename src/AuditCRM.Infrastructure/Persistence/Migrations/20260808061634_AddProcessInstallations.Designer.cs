@@ -4,6 +4,7 @@ using AuditCRM.Infrastructure.Persistence.Context;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace AuditCRM.Infrastructure.Persistence.Migrations
 {
     [DbContext(typeof(AuditDbContext))]
-    partial class AuditDbContextModelSnapshot : ModelSnapshot
+    [Migration("20260808061634_AddProcessInstallations")]
+    partial class AddProcessInstallations
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -205,79 +208,6 @@ namespace AuditCRM.Infrastructure.Persistence.Migrations
                     b.ToTable("ProcessAppointments", (string)null);
                 });
 
-            modelBuilder.Entity("AuditCRM.Domain.Entities.ProcessDocument", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<string>("ContentType")
-                        .IsRequired()
-                        .HasMaxLength(150)
-                        .HasColumnType("nvarchar(150)");
-
-                    b.Property<DateTime>("CreatedAt")
-                        .HasColumnType("datetime2");
-
-                    b.Property<Guid?>("CreatedByUserId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<DateTime?>("DeletedAt")
-                        .HasColumnType("datetime2");
-
-                    b.Property<Guid?>("DeletedByUserId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<long>("FileSize")
-                        .HasColumnType("bigint");
-
-                    b.Property<bool>("IsDeleted")
-                        .HasColumnType("bit");
-
-                    b.Property<string>("OriginalFileName")
-                        .IsRequired()
-                        .HasMaxLength(255)
-                        .HasColumnType("nvarchar(255)");
-
-                    b.Property<string>("RelativePath")
-                        .IsRequired()
-                        .HasMaxLength(1000)
-                        .HasColumnType("nvarchar(1000)");
-
-                    b.Property<byte[]>("RowVersion")
-                        .IsConcurrencyToken()
-                        .IsRequired()
-                        .ValueGeneratedOnAddOrUpdate()
-                        .HasColumnType("rowversion");
-
-                    b.Property<Guid>("StoreProcessId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<string>("StoredFileName")
-                        .IsRequired()
-                        .HasMaxLength(255)
-                        .HasColumnType("nvarchar(255)");
-
-                    b.Property<DateTime?>("UpdatedAt")
-                        .HasColumnType("datetime2");
-
-                    b.Property<Guid?>("UpdatedByUserId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid?>("UploadedByUserId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("CreatedAt");
-
-                    b.HasIndex("StoreProcessId");
-
-                    b.HasIndex("UploadedByUserId");
-
-                    b.ToTable("ProcessDocuments", (string)null);
-                });
-
             modelBuilder.Entity("AuditCRM.Domain.Entities.ProcessInstallation", b =>
                 {
                     b.Property<Guid>("Id")
@@ -434,61 +364,6 @@ namespace AuditCRM.Infrastructure.Persistence.Migrations
                     b.HasIndex("StoreProcessId");
 
                     b.ToTable("ProcessInteractions", (string)null);
-                });
-
-            modelBuilder.Entity("AuditCRM.Domain.Entities.ProcessNote", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid?>("AuthorUserId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<DateTime>("CreatedAt")
-                        .HasColumnType("datetime2");
-
-                    b.Property<Guid?>("CreatedByUserId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<DateTime?>("DeletedAt")
-                        .HasColumnType("datetime2");
-
-                    b.Property<Guid?>("DeletedByUserId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<bool>("IsDeleted")
-                        .HasColumnType("bit");
-
-                    b.Property<byte[]>("RowVersion")
-                        .IsConcurrencyToken()
-                        .IsRequired()
-                        .ValueGeneratedOnAddOrUpdate()
-                        .HasColumnType("rowversion");
-
-                    b.Property<Guid>("StoreProcessId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<string>("Text")
-                        .IsRequired()
-                        .HasMaxLength(4000)
-                        .HasColumnType("nvarchar(4000)");
-
-                    b.Property<DateTime?>("UpdatedAt")
-                        .HasColumnType("datetime2");
-
-                    b.Property<Guid?>("UpdatedByUserId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("AuthorUserId");
-
-                    b.HasIndex("CreatedAt");
-
-                    b.HasIndex("StoreProcessId");
-
-                    b.ToTable("ProcessNotes", (string)null);
                 });
 
             modelBuilder.Entity("AuditCRM.Domain.Entities.RefreshToken", b =>
@@ -1037,24 +912,6 @@ namespace AuditCRM.Infrastructure.Persistence.Migrations
                     b.Navigation("StoreProcess");
                 });
 
-            modelBuilder.Entity("AuditCRM.Domain.Entities.ProcessDocument", b =>
-                {
-                    b.HasOne("AuditCRM.Domain.Entities.StoreProcess", "StoreProcess")
-                        .WithMany()
-                        .HasForeignKey("StoreProcessId")
-                        .OnDelete(DeleteBehavior.NoAction)
-                        .IsRequired();
-
-                    b.HasOne("AuditCRM.Domain.Entities.User", "UploadedByUser")
-                        .WithMany()
-                        .HasForeignKey("UploadedByUserId")
-                        .OnDelete(DeleteBehavior.SetNull);
-
-                    b.Navigation("StoreProcess");
-
-                    b.Navigation("UploadedByUser");
-                });
-
             modelBuilder.Entity("AuditCRM.Domain.Entities.ProcessInstallation", b =>
                 {
                     b.HasOne("AuditCRM.Domain.Entities.Erp", "Erp")
@@ -1101,24 +958,6 @@ namespace AuditCRM.Infrastructure.Persistence.Migrations
                     b.Navigation("ResponsibleUser");
 
                     b.Navigation("StoreContact");
-
-                    b.Navigation("StoreProcess");
-                });
-
-            modelBuilder.Entity("AuditCRM.Domain.Entities.ProcessNote", b =>
-                {
-                    b.HasOne("AuditCRM.Domain.Entities.User", "AuthorUser")
-                        .WithMany()
-                        .HasForeignKey("AuthorUserId")
-                        .OnDelete(DeleteBehavior.SetNull);
-
-                    b.HasOne("AuditCRM.Domain.Entities.StoreProcess", "StoreProcess")
-                        .WithMany()
-                        .HasForeignKey("StoreProcessId")
-                        .OnDelete(DeleteBehavior.NoAction)
-                        .IsRequired();
-
-                    b.Navigation("AuthorUser");
 
                     b.Navigation("StoreProcess");
                 });
