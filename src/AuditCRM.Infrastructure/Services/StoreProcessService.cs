@@ -10,7 +10,8 @@ public sealed class StoreProcessService : IStoreProcessService
 {
     private readonly AuditDbContext _dbContext;
 
-    public StoreProcessService(AuditDbContext dbContext)
+    public StoreProcessService(
+        AuditDbContext dbContext)
     {
         _dbContext = dbContext;
     }
@@ -31,7 +32,8 @@ public sealed class StoreProcessService : IStoreProcessService
         if (storeId.HasValue)
         {
             query = query.Where(
-                process => process.StoreId == storeId.Value);
+                process =>
+                    process.StoreId == storeId.Value);
         }
 
         if (shoppingId.HasValue)
@@ -39,14 +41,16 @@ public sealed class StoreProcessService : IStoreProcessService
             query = query.Where(
                 process =>
                     process.Store != null &&
-                    process.Store.ShoppingId == shoppingId.Value);
+                    process.Store.ShoppingId ==
+                    shoppingId.Value);
         }
 
         if (responsibleUserId.HasValue)
         {
             query = query.Where(
                 process =>
-                    process.ResponsibleUserId == responsibleUserId.Value);
+                    process.ResponsibleUserId ==
+                    responsibleUserId.Value);
         }
 
         return await query
@@ -69,6 +73,7 @@ public sealed class StoreProcessService : IStoreProcessService
                     : null,
                 process.Status,
                 process.Priority,
+                process.Frequency,
                 process.NextAction,
                 process.NextActionAt,
                 process.StartedAt,
@@ -105,6 +110,7 @@ public sealed class StoreProcessService : IStoreProcessService
                     : null,
                 process.Status,
                 process.Priority,
+                process.Frequency,
                 process.NextAction,
                 process.NextActionAt,
                 process.StartedAt,
@@ -142,6 +148,7 @@ public sealed class StoreProcessService : IStoreProcessService
             request.ResponsibleUserId,
             request.Status,
             request.Priority,
+            request.Frequency,
             request.NextAction,
             request.NextActionAt,
             request.Notes);
@@ -150,7 +157,8 @@ public sealed class StoreProcessService : IStoreProcessService
 
         _dbContext.StoreProcesses.Add(process);
 
-        await _dbContext.SaveChangesAsync(cancellationToken);
+        await _dbContext.SaveChangesAsync(
+            cancellationToken);
 
         return await GetRequiredDtoAsync(
             process.Id,
@@ -180,13 +188,15 @@ public sealed class StoreProcessService : IStoreProcessService
             request.ResponsibleUserId,
             request.Status,
             request.Priority,
+            request.Frequency,
             request.NextAction,
             request.NextActionAt,
             request.Notes);
 
         process.MarkUpdatedBy(currentUserId);
 
-        await _dbContext.SaveChangesAsync(cancellationToken);
+        await _dbContext.SaveChangesAsync(
+            cancellationToken);
 
         return await GetRequiredDtoAsync(
             process.Id,
@@ -205,7 +215,8 @@ public sealed class StoreProcessService : IStoreProcessService
         process.Close();
         process.MarkUpdatedBy(currentUserId);
 
-        await _dbContext.SaveChangesAsync(cancellationToken);
+        await _dbContext.SaveChangesAsync(
+            cancellationToken);
     }
 
     public async Task ReopenAsync(
@@ -220,7 +231,8 @@ public sealed class StoreProcessService : IStoreProcessService
         process.Reopen();
         process.MarkUpdatedBy(currentUserId);
 
-        await _dbContext.SaveChangesAsync(cancellationToken);
+        await _dbContext.SaveChangesAsync(
+            cancellationToken);
     }
 
     public async Task DeleteAsync(
@@ -234,7 +246,8 @@ public sealed class StoreProcessService : IStoreProcessService
 
         process.Delete(currentUserId);
 
-        await _dbContext.SaveChangesAsync(cancellationToken);
+        await _dbContext.SaveChangesAsync(
+            cancellationToken);
     }
 
     private async Task ValidateStoreAsync(
@@ -260,7 +273,9 @@ public sealed class StoreProcessService : IStoreProcessService
         CancellationToken cancellationToken)
     {
         if (!installationTypeId.HasValue)
+        {
             return;
+        }
 
         var exists = await _dbContext.InstallationTypes
             .AnyAsync(
@@ -281,7 +296,9 @@ public sealed class StoreProcessService : IStoreProcessService
         CancellationToken cancellationToken)
     {
         if (!responsibleUserId.HasValue)
+        {
             return;
+        }
 
         var exists = await _dbContext.Users
             .AnyAsync(

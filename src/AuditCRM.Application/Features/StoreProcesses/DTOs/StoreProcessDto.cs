@@ -12,6 +12,7 @@ public sealed record StoreProcessDto(
     string? ResponsibleUserName,
     StoreProcessStatus Status,
     ProcessPriority Priority,
+    ProcessFrequency Frequency,
     string? NextAction,
     DateTime? NextActionAt,
     DateTime StartedAt,

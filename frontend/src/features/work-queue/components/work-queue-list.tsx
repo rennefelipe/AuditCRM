@@ -7,6 +7,12 @@ import {
 } from "lucide-react";
 import Link from "next/link";
 
+import { Badge } from "@/components/ui/badge";
+
+import {
+  getPriorityInfo,
+  getStatusInfo,
+} from "../process-labels";
 import type { WorkQueueItem } from "../work-queue-types";
 
 type WorkQueueListProps = {
@@ -42,7 +48,7 @@ export function WorkQueueList({
           <Store className="h-5 w-5 text-slate-400" />
         </div>
 
-        <h3 className="mt-4 font-semibold text-[#00213d]">
+        <h3 className="mt-4 text-base font-semibold text-[#00213d]">
           Nenhum processo encontrado
         </h3>
 
@@ -61,6 +67,14 @@ export function WorkQueueList({
             item.nextActionAt,
           );
 
+          const status = getStatusInfo(
+            item.status,
+          );
+
+          const priority = getPriorityInfo(
+            item.priority,
+          );
+
           return (
             <Link
               key={item.storeProcessId}
@@ -68,58 +82,78 @@ export function WorkQueueList({
               className="group block p-4 transition hover:bg-slate-50 sm:p-5"
             >
               <div className="flex gap-4">
-                <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-[#007dd8]/10 text-[#007dd8]">
+                <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-[#007dd8]/10 text-[#007dd8]">
                   <Store className="h-5 w-5" />
                 </div>
 
                 <div className="min-w-0 flex-1">
-                  <div className="flex flex-col gap-3 lg:flex-row lg:items-start lg:justify-between">
+                  <div className="flex flex-col gap-3 xl:flex-row xl:items-start xl:justify-between">
                     <div className="min-w-0">
                       <div className="flex flex-wrap items-center gap-2">
-                        <h3 className="truncate text-base font-semibold text-[#00213d]">
+                        <h3 className="text-base font-semibold text-[#00213d] sm:text-lg">
                           {item.storeName}
                         </h3>
 
+                        <Badge
+                          variant="outline"
+                          className={status.className}
+                        >
+                          {status.label}
+                        </Badge>
+
+                        <Badge
+                          variant="outline"
+                          className={priority.className}
+                        >
+                          {priority.label}
+                        </Badge>
+
                         {overdue && (
-                          <span className="inline-flex items-center gap-1 rounded-full bg-red-50 px-2.5 py-1 text-xs font-semibold text-red-600">
+                          <Badge
+                            variant="outline"
+                            className="gap-1 border-red-200 bg-red-50 text-red-700"
+                          >
                             <CircleAlert className="h-3.5 w-3.5" />
                             Atrasada
-                          </span>
+                          </Badge>
                         )}
                       </div>
 
-                      <p className="mt-1 text-sm text-slate-500">
+                      <p className="mt-1.5 text-sm text-slate-500">
                         {item.shoppingGroupName ??
                           "Sem rede"}
-                        {" · "}
+                        {" • "}
                         {item.shoppingName}
                       </p>
                     </div>
 
-                    <ChevronRight className="hidden h-5 w-5 shrink-0 text-slate-300 transition group-hover:translate-x-1 group-hover:text-[#007dd8] lg:block" />
+                    <div className="hidden items-center gap-2 text-sm font-semibold text-[#007dd8] xl:flex">
+                      Abrir operação
+                      <ChevronRight className="h-5 w-5 transition group-hover:translate-x-1" />
+                    </div>
                   </div>
 
-                  <div className="mt-4 grid gap-3 sm:grid-cols-2 xl:grid-cols-4">
-                    <div>
-                      <div className="text-xs font-medium uppercase tracking-wide text-slate-400">
+                  <div className="mt-5 grid gap-4 sm:grid-cols-2 xl:grid-cols-3">
+                    <div className="rounded-xl bg-slate-50 p-3">
+                      <div className="text-xs font-semibold uppercase tracking-wide text-slate-400">
                         Próxima ação
                       </div>
 
-                      <div className="mt-1 text-sm font-medium text-slate-700">
+                      <div className="mt-1.5 text-sm font-medium leading-5 text-slate-700">
                         {item.nextAction ??
                           "Sem próxima ação"}
                       </div>
                     </div>
 
-                    <div>
-                      <div className="flex items-center gap-1.5 text-xs font-medium uppercase tracking-wide text-slate-400">
+                    <div className="rounded-xl bg-slate-50 p-3">
+                      <div className="flex items-center gap-1.5 text-xs font-semibold uppercase tracking-wide text-slate-400">
                         <CalendarClock className="h-3.5 w-3.5" />
                         Prazo
                       </div>
 
                       <div
                         className={[
-                          "mt-1 text-sm font-medium",
+                          "mt-1.5 text-sm font-semibold",
                           overdue
                             ? "text-red-600"
                             : "text-slate-700",
@@ -131,27 +165,22 @@ export function WorkQueueList({
                       </div>
                     </div>
 
-                    <div>
-                      <div className="flex items-center gap-1.5 text-xs font-medium uppercase tracking-wide text-slate-400">
+                    <div className="rounded-xl bg-slate-50 p-3">
+                      <div className="flex items-center gap-1.5 text-xs font-semibold uppercase tracking-wide text-slate-400">
                         <UserRound className="h-3.5 w-3.5" />
-                        Responsável
+                        Técnico responsável
                       </div>
 
-                      <div className="mt-1 text-sm font-medium text-slate-700">
+                      <div className="mt-1.5 text-sm font-semibold text-slate-700">
                         {item.responsibleUserName ??
                           "Não definido"}
                       </div>
                     </div>
+                  </div>
 
-                    <div>
-                      <div className="text-xs font-medium uppercase tracking-wide text-slate-400">
-                        Status / Prioridade
-                      </div>
-
-                      <div className="mt-1 text-sm font-medium text-slate-700">
-                        {item.status} / {item.priority}
-                      </div>
-                    </div>
+                  <div className="mt-4 flex items-center justify-end text-sm font-semibold text-[#007dd8] xl:hidden">
+                    Abrir operação
+                    <ChevronRight className="ml-1 h-4 w-4" />
                   </div>
                 </div>
               </div>

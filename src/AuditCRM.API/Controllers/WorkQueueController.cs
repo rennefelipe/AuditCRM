@@ -22,14 +22,26 @@ public sealed class WorkQueueController : ControllerBase
     public async Task<ActionResult<IReadOnlyList<WorkQueueItemDto>>> Get(
         [FromQuery] Guid? shoppingGroupId,
         [FromQuery] Guid? shoppingId,
+        [FromQuery] Guid? storeId,
+        [FromQuery] string? search,
+        [FromQuery] Guid? installationTypeId,
+        [FromQuery] int? status,
         [FromQuery] Guid? responsibleUserId,
+        [FromQuery] int? frequency,
+        [FromQuery] int? priority,
         [FromQuery] bool? overdueOnly,
         CancellationToken cancellationToken)
     {
         var result = await _service.GetAsync(
             shoppingGroupId,
             shoppingId,
+            storeId,
+            search,
+            installationTypeId,
+            status,
             responsibleUserId,
+            frequency,
+            priority,
             overdueOnly,
             cancellationToken);
 

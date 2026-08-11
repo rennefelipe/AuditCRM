@@ -8,6 +8,7 @@ public sealed record CreateStoreProcessRequestDto(
     Guid? ResponsibleUserId,
     StoreProcessStatus Status,
     ProcessPriority Priority,
+    ProcessFrequency Frequency,
     string? NextAction,
     DateTime? NextActionAt,
     string? Notes);

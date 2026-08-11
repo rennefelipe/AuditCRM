@@ -27,6 +27,7 @@ public sealed class StoreProcess : AuditableEntity
 
         Status = StoreProcessStatus.Service;
         Priority = ProcessPriority.Normal;
+        Frequency = ProcessFrequency.Monthly;
 
         StartedAt = DateTime.UtcNow;
         IsClosed = false;
@@ -48,6 +49,8 @@ public sealed class StoreProcess : AuditableEntity
 
     public ProcessPriority Priority { get; private set; }
 
+    public ProcessFrequency Frequency { get; private set; }
+
     public string? NextAction { get; private set; }
 
     public DateTime? NextActionAt { get; private set; }
@@ -65,6 +68,7 @@ public sealed class StoreProcess : AuditableEntity
         Guid? responsibleUserId,
         StoreProcessStatus status,
         ProcessPriority priority,
+        ProcessFrequency frequency,
         string? nextAction,
         DateTime? nextActionAt,
         string? notes)
@@ -73,10 +77,20 @@ public sealed class StoreProcess : AuditableEntity
         ResponsibleUserId = responsibleUserId;
         Status = status;
         Priority = priority;
+        Frequency = frequency;
 
         NextAction = NormalizeOptionalText(nextAction);
         NextActionAt = nextActionAt;
         Notes = NormalizeOptionalText(notes);
+
+        if (status == StoreProcessStatus.Installed)
+        {
+            CompletedAt ??= DateTime.UtcNow;
+        }
+        else
+        {
+            CompletedAt = null;
+        }
 
         UpdatedAt = DateTime.UtcNow;
     }

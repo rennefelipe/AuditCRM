@@ -1,4 +1,5 @@
 using AuditCRM.Domain.Entities;
+using AuditCRM.Domain.Enums;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
@@ -7,7 +8,8 @@ namespace AuditCRM.Infrastructure.Persistence.Configurations;
 public sealed class StoreProcessConfiguration
     : IEntityTypeConfiguration<StoreProcess>
 {
-    public void Configure(EntityTypeBuilder<StoreProcess> builder)
+    public void Configure(
+        EntityTypeBuilder<StoreProcess> builder)
     {
         builder.ToTable("StoreProcesses");
 
@@ -19,6 +21,11 @@ public sealed class StoreProcessConfiguration
 
         builder.Property(process => process.Priority)
             .HasConversion<int>()
+            .IsRequired();
+
+        builder.Property(process => process.Frequency)
+            .HasConversion<int>()
+            .HasDefaultValue(ProcessFrequency.Monthly)
             .IsRequired();
 
         builder.Property(process => process.NextAction)
@@ -51,12 +58,17 @@ public sealed class StoreProcessConfiguration
 
         builder.HasIndex(process => process.StoreId);
 
+        builder.HasIndex(process => process.InstallationTypeId);
+
         builder.HasIndex(process => process.ResponsibleUserId);
 
         builder.HasIndex(process => process.Status);
 
+        builder.HasIndex(process => process.Frequency);
+
         builder.HasIndex(process => process.NextActionAt);
 
-        builder.HasQueryFilter(process => !process.IsDeleted);
+        builder.HasQueryFilter(
+            process => !process.IsDeleted);
     }
 }

@@ -7,6 +7,7 @@ public sealed record UpdateStoreProcessRequestDto(
     Guid? ResponsibleUserId,
     StoreProcessStatus Status,
     ProcessPriority Priority,
+    ProcessFrequency Frequency,
     string? NextAction,
     DateTime? NextActionAt,
     string? Notes);
