@@ -14,5 +14,11 @@ public sealed record CreateShoppingRequestDto(
     string? ContactName,
     string? ContactEmail,
     string? ContactPhone,
+    string? WebsiteUrl,
+    string? ControlShopUrl,
+    string? PortalUrl,
+    string? ApiName,
+    string? XmlReadingEmail,
+    string? RegistrationEmail,
     bool PaysInstallation,
     string? Notes);

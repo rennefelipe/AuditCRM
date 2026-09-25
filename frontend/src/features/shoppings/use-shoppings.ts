@@ -2,7 +2,10 @@
 
 import { useQuery } from "@tanstack/react-query";
 
-import { getShoppings } from "./shopping-service";
+import {
+  getShoppingById,
+  getShoppings,
+} from "./shopping-service";
 
 export function useShoppings(
   shoppingGroupId?: string,
@@ -12,8 +15,28 @@ export function useShoppings(
       "shoppings",
       shoppingGroupId ?? null,
     ],
+
     queryFn: () =>
       getShoppings(shoppingGroupId),
+
     enabled: Boolean(shoppingGroupId),
+  });
+}
+
+export function useShopping(
+  shoppingId?: string,
+) {
+  return useQuery({
+    queryKey: [
+      "shopping",
+      shoppingId ?? null,
+    ],
+
+    queryFn: () =>
+      getShoppingById(
+        shoppingId as string,
+      ),
+
+    enabled: Boolean(shoppingId),
   });
 }

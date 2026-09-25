@@ -7,7 +7,8 @@ namespace AuditCRM.Infrastructure.Persistence.Configurations;
 public sealed class ShoppingConfiguration
     : IEntityTypeConfiguration<Shopping>
 {
-    public void Configure(EntityTypeBuilder<Shopping> builder)
+    public void Configure(
+        EntityTypeBuilder<Shopping> builder)
     {
         builder.ToTable("Shoppings");
 
@@ -50,6 +51,24 @@ public sealed class ShoppingConfiguration
         builder.Property(shopping => shopping.ContactPhone)
             .HasMaxLength(30);
 
+        builder.Property(shopping => shopping.WebsiteUrl)
+            .HasMaxLength(500);
+
+        builder.Property(shopping => shopping.ControlShopUrl)
+            .HasMaxLength(500);
+
+        builder.Property(shopping => shopping.PortalUrl)
+            .HasMaxLength(500);
+
+        builder.Property(shopping => shopping.ApiName)
+            .HasMaxLength(200);
+
+        builder.Property(shopping => shopping.XmlReadingEmail)
+            .HasMaxLength(200);
+
+        builder.Property(shopping => shopping.RegistrationEmail)
+            .HasMaxLength(200);
+
         builder.Property(shopping => shopping.Notes)
             .HasMaxLength(2000);
 
@@ -63,6 +82,7 @@ public sealed class ShoppingConfiguration
             shopping.Name
         }).IsUnique();
 
-        builder.HasQueryFilter(shopping => !shopping.IsDeleted);
+        builder.HasQueryFilter(
+            shopping => !shopping.IsDeleted);
     }
 }

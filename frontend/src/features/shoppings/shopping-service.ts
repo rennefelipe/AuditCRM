@@ -17,3 +17,13 @@ export async function getShoppings(
 
   return response.data;
 }
+
+export async function getShoppingById(
+  shoppingId: string,
+): Promise<Shopping> {
+  const response = await api.get<Shopping>(
+    `/shoppings/${shoppingId}`,
+  );
+
+  return response.data;
+}

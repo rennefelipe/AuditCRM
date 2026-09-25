@@ -27,7 +27,8 @@ public sealed class ShoppingService : IShoppingService
         if (shoppingGroupId.HasValue)
         {
             query = query.Where(
-                shopping => shopping.ShoppingGroupId == shoppingGroupId.Value);
+                shopping =>
+                    shopping.ShoppingGroupId == shoppingGroupId.Value);
         }
 
         return await query
@@ -50,6 +51,12 @@ public sealed class ShoppingService : IShoppingService
                 shopping.ContactName,
                 shopping.ContactEmail,
                 shopping.ContactPhone,
+                shopping.WebsiteUrl,
+                shopping.ControlShopUrl,
+                shopping.PortalUrl,
+                shopping.ApiName,
+                shopping.XmlReadingEmail,
+                shopping.RegistrationEmail,
                 shopping.PaysInstallation,
                 shopping.Notes,
                 shopping.IsActive,
@@ -83,6 +90,12 @@ public sealed class ShoppingService : IShoppingService
                 shopping.ContactName,
                 shopping.ContactEmail,
                 shopping.ContactPhone,
+                shopping.WebsiteUrl,
+                shopping.ControlShopUrl,
+                shopping.PortalUrl,
+                shopping.ApiName,
+                shopping.XmlReadingEmail,
+                shopping.RegistrationEmail,
                 shopping.PaysInstallation,
                 shopping.Notes,
                 shopping.IsActive,
@@ -128,6 +141,12 @@ public sealed class ShoppingService : IShoppingService
             request.ContactName,
             request.ContactEmail,
             request.ContactPhone,
+            request.WebsiteUrl,
+            request.ControlShopUrl,
+            request.PortalUrl,
+            request.ApiName,
+            request.XmlReadingEmail,
+            request.RegistrationEmail,
             request.PaysInstallation,
             request.Notes);
 
@@ -180,6 +199,12 @@ public sealed class ShoppingService : IShoppingService
             request.ContactName,
             request.ContactEmail,
             request.ContactPhone,
+            request.WebsiteUrl,
+            request.ControlShopUrl,
+            request.PortalUrl,
+            request.ApiName,
+            request.XmlReadingEmail,
+            request.RegistrationEmail,
             request.PaysInstallation,
             request.Notes);
 

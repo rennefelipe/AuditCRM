@@ -24,6 +24,7 @@ public sealed class Shopping : AuditableEntity
 
         ShoppingGroupId = shoppingGroupId;
         SetName(name);
+
         PaysInstallation = paysInstallation;
         IsActive = true;
     }
@@ -56,13 +57,43 @@ public sealed class Shopping : AuditableEntity
 
     public string? ContactPhone { get; private set; }
 
+    /*
+     * Dados operacionais do shopping
+     */
+
+    public string? WebsiteUrl { get; private set; }
+
+    public string? ControlShopUrl { get; private set; }
+
+    public string? PortalUrl { get; private set; }
+
+    public string? ApiName { get; private set; }
+
+    /*
+     * E-mail utilizado para leitura/recebimento de XML.
+     *
+     * Este campo é separado do ContactEmail e também
+     * não representa a configuração de envio de
+     * notificações.
+     */
+    public string? XmlReadingEmail { get; private set; }
+
+    /*
+     * E-mail operacional/de cadastro do shopping.
+     *
+     * Mantido separado do e-mail de leitura XML para
+     * não misturar finalidades diferentes.
+     */
+    public string? RegistrationEmail { get; private set; }
+
     public bool PaysInstallation { get; private set; }
 
     public string? Notes { get; private set; }
 
     public bool IsActive { get; private set; }
 
-    public IReadOnlyCollection<Store> Stores => _stores.AsReadOnly();
+    public IReadOnlyCollection<Store> Stores =>
+        _stores.AsReadOnly();
 
     public void Update(
         Guid shoppingGroupId,
@@ -78,6 +109,12 @@ public sealed class Shopping : AuditableEntity
         string? contactName,
         string? contactEmail,
         string? contactPhone,
+        string? websiteUrl,
+        string? controlShopUrl,
+        string? portalUrl,
+        string? apiName,
+        string? xmlReadingEmail,
+        string? registrationEmail,
         bool paysInstallation,
         string? notes)
     {
@@ -89,21 +126,65 @@ public sealed class Shopping : AuditableEntity
         }
 
         ShoppingGroupId = shoppingGroupId;
+
         SetName(name);
 
-        CorporateName = NormalizeOptionalText(corporateName);
-        Document = NormalizeDocument(document);
-        Address = NormalizeOptionalText(address);
-        Number = NormalizeOptionalText(number);
-        District = NormalizeOptionalText(district);
-        City = NormalizeOptionalText(city);
-        State = NormalizeState(state);
-        ZipCode = NormalizeDocument(zipCode);
-        ContactName = NormalizeOptionalText(contactName);
-        ContactEmail = NormalizeEmail(contactEmail);
-        ContactPhone = NormalizeOptionalText(contactPhone);
+        CorporateName =
+            NormalizeOptionalText(corporateName);
+
+        Document =
+            NormalizeDocument(document);
+
+        Address =
+            NormalizeOptionalText(address);
+
+        Number =
+            NormalizeOptionalText(number);
+
+        District =
+            NormalizeOptionalText(district);
+
+        City =
+            NormalizeOptionalText(city);
+
+        State =
+            NormalizeState(state);
+
+        ZipCode =
+            NormalizeDocument(zipCode);
+
+        ContactName =
+            NormalizeOptionalText(contactName);
+
+        ContactEmail =
+            NormalizeEmail(contactEmail);
+
+        ContactPhone =
+            NormalizeOptionalText(contactPhone);
+
+        WebsiteUrl =
+            NormalizeUrl(websiteUrl);
+
+        ControlShopUrl =
+            NormalizeUrl(controlShopUrl);
+
+        PortalUrl =
+            NormalizeUrl(portalUrl);
+
+        ApiName =
+            NormalizeOptionalText(apiName);
+
+        XmlReadingEmail =
+            NormalizeEmail(xmlReadingEmail);
+
+        RegistrationEmail =
+            NormalizeEmail(registrationEmail);
+
         PaysInstallation = paysInstallation;
-        Notes = NormalizeOptionalText(notes);
+
+        Notes =
+            NormalizeOptionalText(notes);
+
         UpdatedAt = DateTime.UtcNow;
     }
 
@@ -140,34 +221,52 @@ public sealed class Shopping : AuditableEntity
         Name = normalizedName;
     }
 
-    private static string? NormalizeOptionalText(string? value)
+    private static string? NormalizeOptionalText(
+        string? value)
     {
         return string.IsNullOrWhiteSpace(value)
             ? null
             : value.Trim();
     }
 
-    private static string? NormalizeEmail(string? value)
+    private static string? NormalizeEmail(
+        string? value)
     {
         return string.IsNullOrWhiteSpace(value)
             ? null
             : value.Trim().ToLowerInvariant();
     }
 
-    private static string? NormalizeState(string? value)
-    {
-        return string.IsNullOrWhiteSpace(value)
-            ? null
-            : value.Trim().ToUpperInvariant();
-    }
-
-    private static string? NormalizeDocument(string? value)
+    private static string? NormalizeUrl(
+        string? value)
     {
         if (string.IsNullOrWhiteSpace(value))
         {
             return null;
         }
 
-        return new string(value.Where(char.IsDigit).ToArray());
+        return value.Trim();
+    }
+
+    private static string? NormalizeState(
+        string? value)
+    {
+        return string.IsNullOrWhiteSpace(value)
+            ? null
+            : value.Trim().ToUpperInvariant();
+    }
+
+    private static string? NormalizeDocument(
+        string? value)
+    {
+        if (string.IsNullOrWhiteSpace(value))
+        {
+            return null;
+        }
+
+        return new string(
+            value
+                .Where(char.IsDigit)
+                .ToArray());
     }
 }
